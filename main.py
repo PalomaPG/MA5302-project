@@ -4,7 +4,8 @@ from data_handler.DataHandler import DataHandler
 
 def main(path):
     dh = DataHandler(path)
-    dh.read_file()
+    dh.write_csv()
+    #dh.read_file()
 
 
 if __name__ == '__main__':
