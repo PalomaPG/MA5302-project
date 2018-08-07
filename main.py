@@ -1,11 +1,11 @@
 import sys, os
-from data_handler.DataHandler import DataHandler
+from src.Clustering import Clustering
 
 
-def main(path):
-    dh = DataHandler(path)
-    dh.write_csv()
-    #dh.read_file()
+def main(path_):
+    clust = Clustering(path_)
+    clust.load_data()
+    clust.clusterization()
 
 
 if __name__ == '__main__':
