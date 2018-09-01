@@ -1,11 +1,12 @@
 import sys
-from src.Clustering import Clustering
-
+from src.DataLoader import DataLoader
+from src.LabelPropagation import MyLabelPropagation
 
 def main(path_):
-    clust = Clustering(path_)
-    clust.load_data()
-    clust.plot_misclassify_count()
+    dl = DataLoader(path_)
+    dl.clustering()
+    #lp = MyLabelPropagation(X, y)
+    #lp.test()
 
 if __name__ == '__main__':
     main(sys.argv[1])
