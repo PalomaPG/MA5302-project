@@ -1,20 +1,22 @@
 from sklearn.model_selection import train_test_split
-from sklearn.decomposition import PCA
 import numpy as np
 
 from sklearn.semi_supervised import LabelPropagation
-from .Utils import plot_confusion_matrix
+from .Utils import plot_confusion_matrix, simple_plot, preprocess_pca, print_dict
 
 
 class MyLabelPropagation(object):
 
     def __init__(self, X, y):
-        self.n_components = [10, 15, 25, 30]
+        self.n_components = [25]
+        print(type(X))
         self.X = X
         self.y = y
         self.labels = np.unique(y)
+        self.m_acc = []
 
     def preprocess(self, n_components, print_freq = False):
+
         X = preprocess_pca(self.X, self.y, n_components)
         if print_freq:
             unique, counts = np.unique(self.y, return_counts=True)
@@ -35,23 +37,17 @@ class MyLabelPropagation(object):
         mean_acc=label_prop_model.score(X_test, y_test)
         plot_confusion_matrix(y_test, y_pred, self.labels, normalize=False,
                               figname=('lp_comps_%d.png' % n_components))
-        print(mean_acc)
+        self.m_acc.append(mean_acc)
         print(label_prop_model.get_params())
 
     def test(self):
         for i in self.n_components:
             self.process(i)
-
-def print_dict(dict):
-    print('.............')
-    for k, v in dict.items():
-        print(k+': '+str(v))
-    print('...........\n')
+        print(self.m_acc)
+        simple_plot(self.n_components, [self.m_acc], title='Norm. accuracy per n components',
+                    ylabel='Accuracy', xlabel='N of components', labels=['Norm. Acc'],
+                    figname='acc_lp.png')
 
 
-def preprocess_pca(X, y, n_components):
-    pca = PCA(n_components=n_components, random_state=7)
-    X = pca.fit_transform(X, y)
-    print(pca.get_params())
-    print(pca.components_)
-    return X
+
+

@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-class Clustering(object):
+class EXClustering(object):
 
     def __init__(self, path_file):
         self.n_clusters = 0

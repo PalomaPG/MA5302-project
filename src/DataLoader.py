@@ -20,16 +20,16 @@ class DataLoader(object):
 
     def label_prop(self):
         df = self.DF.loc[self.DF['CLASS'] != 'dubious']
-        X = np.array(df.iloc[:, df.columns != 'CLASS'].values, dtype=float)
-        y = np.array(df.iloc[:, df.columns == 'CLASS'].values, dtype=object)
+        X = df.iloc[:, df.columns != 'CLASS']
+        y = df.iloc[:, df.columns == 'CLASS']
         #y.reshape(y.shape[0], )
         scaler = StandardScaler(copy=False)
-        X = scaler.fit_transform(X, y)
+        X = pd.DataFrame(scaler.fit_transform(X, y), columns = X.columns)
         return X, y
 
     def clustering(self):
         df = self.DF.loc[self.DF['CLASS'] == 'dubious']
-        X = np.array(df.iloc[:, df.columns != 'CLASS'].values, dtype=float)
+        X = df.iloc[:, df.columns != 'CLASS']
         scaler = StandardScaler(copy=False)
-        X = scaler.fit_transform(X)
+        X = pd.DataFrame(scaler.fit_transform(X), columns = X.columns)
         return X
